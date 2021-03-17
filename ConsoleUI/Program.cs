@@ -1,6 +1,5 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete.Entity_Framework;
-using DataAccess.Concrete.InMemory;
 using System;
 
 namespace ConsoleUI
@@ -15,8 +14,7 @@ namespace ConsoleUI
             //    Console.WriteLine(Car.Description);
             //}
 
-            CarManager carManager = new CarManager(new EfCarDal());
-            if (carManager.Dailprice=)
+           
             {
 
             }
