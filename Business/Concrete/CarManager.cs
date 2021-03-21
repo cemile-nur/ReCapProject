@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.Entity_Framework;
 using Entities.Concrete;
@@ -18,32 +20,42 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public Car Add(Car car)
+        public IResult Add(Car car)
         {
-            throw new NotImplementedException();
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
         }
 
-        public Car Delete(Car car)
+        public IDataResult<List<Car>> GetAll()
         {
-            throw new NotImplementedException();
+            if (DateTime.Now.Hour == 23)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarsListed);
         }
 
-        public List<Car> GetAll()
+        public IDataResult<Car> GetById(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<Car>> GetByUnitPrice(decimal min, decimal max)
         {
-            return _carDal.GetCarDetails();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.DailyPrice >= min && p.DailyPrice < max));
         }
 
-        public List<Car> GetCarsByCarId(int id)
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
-        public Car Update(Car car)
+        public IDataResult<List<Car>> GetCarsByCarId(int id)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(a => a.CarId == id));
+        }
+
+        IDataResult<List<Car>> ICarService.GetByUnitPrice(decimal min, decimal max)
         {
             throw new NotImplementedException();
         }
