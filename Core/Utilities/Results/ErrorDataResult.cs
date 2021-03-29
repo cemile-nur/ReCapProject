@@ -23,6 +23,6 @@ namespace Core.Utilities.Results
             {
 
             }
-        }
+        
     }
 }

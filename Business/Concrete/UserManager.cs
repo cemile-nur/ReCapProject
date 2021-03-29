@@ -12,7 +12,7 @@ namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
-        private IUserDal _userDal;
+        IUserDal _userDal;
         public UserManager(IUserDal userDal)
         {
             _userDal = userDal;
@@ -32,7 +32,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Users>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Users>>(_userDal.GetAll());
         }
 
         public IDataResult<Users> GetById(int userId)

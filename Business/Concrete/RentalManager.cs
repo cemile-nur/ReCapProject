@@ -11,7 +11,7 @@ namespace Business.Concrete
 {
     public class RentalManager : IRentalService
     {
-        private IRentalDal _rentalDal;
+        IRentalDal _rentalDal;
 
         public RentalManager(IRentalDal rentalDal)
         {
@@ -45,6 +45,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == rentalId));
         }
+        
 
         public IResult Update(Rental rental)
         {

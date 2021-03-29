@@ -10,27 +10,30 @@ using System.Linq;
 
 namespace DataAccess.Concrete.Entity_Framework
 {
-    public class EfCarDal : EfEntityRepositoryBase<Car, RentACarContext>, ICarDal
-    {
-        public List<CarDetailDto> GetCarDetails()
+    
+    
+        public class EfCarDal : EfEntityRepositoryBase<Car, RentACarContext>, ICarDal
         {
-            using (RentACarContext context = new RentACarContext())
+            public List<CarDetailDto> GetCarDetails()
             {
-                var result = from c in context.Cars
-                             join co in context.Colors
-                                 on c.ColorId equals co.ColorId
-                             join b in context.Brands
+                using (RentACarContext context = new RentACarContext())
+                {
+                    var result = from c in context.Cars
+                                 join b in context.Brands
                                  on c.BrandId equals b.BrandId
-
-                             select new CarDetailDto
-                             {
-                                 CarName = c.CarName,
-                                 BrandName = b.BrandName,
-                                 ColorName = co.ColorName,
-                                 DailyPrice = c.DailyPrice
-                             };
-                return result.ToList();
+                                 join r in context.Colors
+                                 on c.ColorId equals r.ColorId
+                                 select new CarDetailDto
+                                 {
+                                     BrandId = b.BrandId,
+                                     BrandName = b.BrandName,
+                                     DailyPrice = c.DailyPrice,
+                                     ColorName = r.ColorName,
+                                     Description = c.Description,
+                                     CarId = c.CarId
+                                 };
+                    return result.ToList();
+                }
             }
         }
-    }
 }
